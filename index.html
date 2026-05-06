@@ -688,6 +688,26 @@ img {
     border-color: var(--c-matte-black);
 }
 
+.contact-numbers {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.contact-phone {
+    display: inline-block;
+    color: var(--c-matte-black);
+    font-weight: 500;
+    font-size: 1.125rem;
+    transition: var(--t-smooth);
+}
+
+.contact-phone:hover {
+    color: var(--c-rich-gold);
+}
+
 /* =========================================
    FOOTER
    ========================================= */
@@ -997,101 +1017,107 @@ img {
             <p class="cta-subtitle">Partner with our artisans to bring your visionary designs to life in unyielding iron
                 and exquisite detail.</p>
             <a href="mailto:classicmetalindustry1@gmail.com" class="btn-primary">Schedule a Private Consultation</a>
+            <div class="contact-numbers">
+                <a href="tel:+923007167229" class="contact-phone">+92 300 7167229</a>
+                <a href="tel:+923001226229" class="contact-phone">+92 300 1226229</a>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="site-footer">
         <div class="container footer-grid">
-            <!-- Brand Section -->
             <div class="footer-brand">
                 <div class="logo">
                     <img src="Logo.jpeg" alt="Classic Metal Industry Logo" class="brand-logo">
                     <span>Classic Metal Industry</span>
                 </div>
-                <p>Masterful hand-forged wrought iron and bespoke metalwork for discerning estates worldwide.</p>
+                <p>Masterful hand-crafted wrought iron and bespoke metalwork for luxury estates worldwide.</p>
             </div>
-            <!-- Quick Links -->
             <div class="footer-links">
                 <h4>Quick Links</h4>
                 <ul>
                     <li><a href="#home">Home</a></li>
+                    <li><a href="#craft">Our Craft</a></li>
                     <li><a href="#portfolio">Portfolio</a></li>
                     <li><a href="#services">Services</a></li>
-                    <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
-            <!-- Social & Contact -->
-            <div class="footer-info">
+            <div class="social-links">
                 <h4>Connect</h4>
-                <p>classicmetalindustry1@gmail.com</p>
-                <div class="social-links">
-                    <a href="#" aria-label="Instagram">Instagram</a>
-                    <a href="#" aria-label="Facebook">Facebook</a>
-                    <a href="#" aria-label="LinkedIn">LinkedIn</a>
-                </div>
+                <ul>
+                    <li><a href="mailto:classicmetalindustry1@gmail.com">Email</a></li>
+                    <li><a href="tel:+923007167229">Phone</a></li>
+                </ul>
             </div>
         </div>
-        <div class="container footer-bottom">
-            <p>&copy; 2026 Classic Metal Industry. All rights reserved. | Luxury Bespoke Ironwork</p>
+        <div class="footer-bottom">
+            <p>&copy; 2025 The Classic Metal Industry. All rights reserved. Handcrafted with pride.</p>
         </div>
     </footer>
 
     <script>
         // Header scroll effect
-        const header = document.querySelector('.site-header');
         window.addEventListener('scroll', () => {
-            header.classList.toggle('scrolled', window.scrollY > 50);
+            const header = document.querySelector('.site-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
         });
 
-        // Hero slider functionality
+        // Hero slider
         let currentSlide = 0;
         const slides = document.querySelectorAll('.hero-slide');
-        const totalSlides = slides.length;
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
 
         function showSlide(n) {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (n + totalSlides) % totalSlides;
-            slides[currentSlide].classList.add('active');
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n].classList.add('active');
         }
 
-        document.querySelector('.prev-btn').addEventListener('click', () => {
-            showSlide(currentSlide - 1);
+        prevBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
         });
 
-        document.querySelector('.next-btn').addEventListener('click', () => {
-            showSlide(currentSlide + 1);
+        nextBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
         });
 
-        // Auto-advance slides every 5 seconds
+        // Auto-advance slides
         setInterval(() => {
-            showSlide(currentSlide + 1);
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
         }, 5000);
 
         // Gallery lightbox
         const galleryItems = document.querySelectorAll('.gallery-item img');
         const lightbox = document.createElement('div');
         lightbox.className = 'lightbox';
-        lightbox.innerHTML = '<span class="lightbox-close">&times;</span><img class="lightbox-content" src="" alt="">';
+        lightbox.innerHTML = '<div class="lightbox-close">&times;</div><img class="lightbox-content" src="" alt="">';
         document.body.appendChild(lightbox);
 
-        const lightboxImg = lightbox.querySelector('.lightbox-content');
-        const lightboxClose = lightbox.querySelector('.lightbox-close');
-
-        galleryItems.forEach(item => {
-            item.addEventListener('click', () => {
-                lightboxImg.src = item.src;
+        galleryItems.forEach(img => {
+            img.addEventListener('click', () => {
+                lightbox.querySelector('.lightbox-content').src = img.src;
                 lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
             });
         });
 
-        lightboxClose.addEventListener('click', () => {
+        lightbox.querySelector('.lightbox-close').addEventListener('click', () => {
             lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
         });
 
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) {
                 lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
             }
         });
     </script>
